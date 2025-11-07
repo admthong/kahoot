@@ -33,8 +33,10 @@ export class AuthService {
     const mezonUser = JSON.parse(hashParams?.user) as MezonHashUser;
     const hashParamsString = rawHashData.split('&hash=')[0];
 
-    const botToken = this.configService.getOrThrow('MEZON_APP_SECRET');
-    const secretKey = Hasher.HMAC_SHA256(botToken, 'WebAppData');
+    const hashedSecret = Hasher.HASH_MD5(
+      this.configService.getOrThrow('MEZON_APP_SECRET'),
+    );
+    const secretKey = Hasher.HMAC_SHA256(hashedSecret, 'WebAppData');
     const hashedData = Hasher.HEX(
       Hasher.HMAC_SHA256(secretKey, hashParamsString),
     );
