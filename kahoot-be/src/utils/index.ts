@@ -22,6 +22,9 @@ export const calculatePoint = (
 };
 
 export const Hasher = {
+  HASH_MD5: (data: string | Buffer) => {
+    return crypto.createHash('md5').update(data).digest('hex');
+  },
   HMAC_SHA256: (key: string | Buffer, data: string | Buffer) => {
     return crypto.createHmac('sha256', key).update(data).digest();
   },
